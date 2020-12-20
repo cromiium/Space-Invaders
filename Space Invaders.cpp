@@ -266,6 +266,7 @@ int main()
 
 
         // Draw Bullet
+        //TODO: Need to fix this part of code
         if(bShot)
         {
             vBullet.push_back(sPlayer{player.x_pos,player.y_pos});
@@ -277,7 +278,7 @@ int main()
                     bShot = false;
                 }
                 else
-                    it++
+                    it++;
 
   
                 screen[it->y_pos * nScreenWidth + it->x_pos] = L'|';
@@ -297,7 +298,8 @@ int main()
 }
 
 
-// TODO: Enemy Spawn
 // TODO: Enemy Collision w/ Bullet
-// TODO: Enemy Movement
-// TODO: Score
+// TODO: Convert aShield to a linked list with shield/enemy elements
+// TODO: Fix middle and back row of shields
+// TODO: Fix movement to sense holding down arrow keys
+// TODO: Add feature to shoot more than one bullet at a time
