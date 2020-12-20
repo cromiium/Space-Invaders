@@ -21,7 +21,7 @@
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{2527ba0c-09be-4eb7-9c5f-3166b3e1ea93}</ProjectGuid>
+    <ProjectGuid>{7785a955-6acc-4833-8ea5-fc98f396fb91}</ProjectGuid>
     <RootNamespace>SpaceInvaders</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
