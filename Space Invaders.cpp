@@ -36,6 +36,8 @@ struct sShield
     sEnemy s9 = {this->s8.x_pos+1,this->s7.y_pos};
 };
 
+sEnemy aShield1[9] = {sEnemy{nScreenWidth / 3, nScreenHeight - 5}};
+list<sPlayer> lShield1;
 int main()
 {
     // Create Screen Buffer
@@ -77,14 +79,15 @@ int main()
             bKeyRight = (0x8000 & GetAsyncKeyState((unsigned char)('\x27'))) != 0;
             bKeyUp = (0x8000 & GetAsyncKeyState((unsigned char)('\x26'))) != 0;
 
-            if(bKeyLeft && !bKeyLeftOld)
+            if(bKeyLeft/* && !bKeyLeftOld*/)
                 nPlayerDirection = 1;
-            if(bKeyRight && !bKeyRightOld)
+            if(bKeyRight/* && !bKeyRightOld*/)
                 nPlayerDirection = 2;
-            if(bKeyUp && !bShot)
+            if(bKeyUp && !bKeyUpOld)
                 bShot = true;
             bKeyLeftOld = bKeyLeft;
             bKeyRightOld = bKeyRight;
+            bKeyUpOld = bKeyUp;
         }
         // Game Logic =========================================================================================================
         
@@ -140,6 +143,21 @@ int main()
             break;
         }
 
+        // Bullet Movement 
+        if(!vBullet.empty())
+        {
+            for(vector<sPlayer>::iterator it = vBullet.begin(); it != vBullet.end();)
+            {
+                if(it->y_pos > 3)
+                {
+                    it->y_pos--;
+                    it++;
+                }
+                else
+                    it = vBullet.erase(it);
+            }
+        }
+
         
         // Collission Detection
 
@@ -160,55 +178,83 @@ int main()
         }
 
         // Bullet vs Shield
+        //TODO: Shields break the game. MUST FIX
         for(int i = 0; i < 3; i++)
         {
             for(std::vector<sPlayer>::iterator it = vBullet.begin(); it != vBullet.end();)
             {
                 if(it->x_pos == aShield[i].s1.x_pos && it->y_pos == aShield[i].s1.y_pos)
                 {
-                    aShield[i].s1.isdead = true;
-                    it = vBullet.erase(it);
+                    if(!aShield[i].s1.isdead)
+                    {
+                        aShield[i].s1.isdead = true;
+                        it = vBullet.erase(it);
+                    }                    
                 }
                 else if(it->x_pos == aShield[i].s2.x_pos && it->y_pos == aShield[i].s2.y_pos)
                 {
-                    aShield[i].s2.isdead = true;
-                    it = vBullet.erase(it);
+                    if(!aShield[i].s2.isdead)
+                    {
+                        aShield[i].s2.isdead = true;
+                        it = vBullet.erase(it);
+                    }
                 }
                 else if(it->x_pos == aShield[i].s3.x_pos && it->y_pos == aShield[i].s3.y_pos)
                 {
-                    aShield[i].s3.isdead = true;
-                    it = vBullet.erase(it);
+                    if(!aShield[i].s3.isdead)
+                    {
+                        aShield[i].s3.isdead = true;
+                        it = vBullet.erase(it);
+                    }
                 }
                 else if(it->x_pos == aShield[i].s4.x_pos && it->y_pos == aShield[i].s4.y_pos)
                 {
-                    aShield[i].s4.isdead = true;
-                    it = vBullet.erase(it);
+                    if(!aShield[i].s4.isdead)
+                    {
+                        aShield[i].s4.isdead = true;
+                        it = vBullet.erase(it);
+                    }
                 }
                 else if(it->x_pos == aShield[i].s5.x_pos && it->y_pos == aShield[i].s5.y_pos)
                 {
-                    aShield[i].s5.isdead = true;
-                    it = vBullet.erase(it);
+                    if(!aShield[i].s5.isdead)
+                    {
+                        aShield[i].s5.isdead = true;
+                        it = vBullet.erase(it);
+                    }
                 }
                 else if(it->x_pos == aShield[i].s6.x_pos && it->y_pos == aShield[i].s6.y_pos)
                 {
-                    aShield[i].s6.isdead = true;
-                    it = vBullet.erase(it);
+                    if(!aShield[i].s6.isdead)
+                    {
+                        aShield[i].s6.isdead = true;
+                        it = vBullet.erase(it);
+                    }
                 }
                 else if(it->x_pos == aShield[i].s7.x_pos && it->y_pos == aShield[i].s7.y_pos)
                 {
-                    aShield[i].s7.isdead = true;
-                    it = vBullet.erase(it);
+                    if(!aShield[i].s7.isdead)
+                    {
+                        aShield[i].s7.isdead = true;
+                        it = vBullet.erase(it);
+                    }
                 }
                 else if(it->x_pos == aShield[i].s8.x_pos && it->y_pos == aShield[i].s8.y_pos)
                 {
-                    aShield[i].s8.isdead = true;
-                    it = vBullet.erase(it);
+                    if(!aShield[i].s8.isdead)
+                    {
+                        aShield[i].s8.isdead = true;
+                        it = vBullet.erase(it);
+                    }
                 }
                 else if(it->x_pos == aShield[i].s9.x_pos && it->y_pos == aShield[i].s9.y_pos)
                 {
-                    aShield[i].s9.isdead = true;
-                    it = vBullet.erase(it);
-                }
+                    if(!aShield[i].s9.isdead)
+                    {
+                        aShield[i].s9.isdead = true;
+                        it = vBullet.erase(it);
+                    }
+                    }
                 else
                     it++;
 
@@ -266,27 +312,18 @@ int main()
 
 
         // Draw Bullet
-        //TODO: Need to fix this part of code
         if(bShot)
         {
-            vBullet.push_back(sPlayer{player.x_pos,player.y_pos});
-            for(std::vector<sPlayer>::iterator it = vBullet.begin(); it != vBullet.end(); )
+            vBullet.push_back(sPlayer{player.x_pos,player.y_pos-1});
+            bShot = false;
+        }       
+        if(!vBullet.empty())
+        {
+            for(std::vector<sPlayer>::iterator it = vBullet.begin(); it != vBullet.end(); it++)
             {
-                if(vBullet[0].y_pos == 3)
-                {
-                    it = vBullet.erase(it);
-                    bShot = false;
-                }
-                else
-                    it++;
-
-  
                 screen[it->y_pos * nScreenWidth + it->x_pos] = L'|';
-                if(it->y_pos == 3)
-                    vBullet.erase(it);
-            }         
+            }
         }
-
         // Player Death
         if(bDead)
             wsprintf(&screen[15 * nScreenWidth + 40], L"    PRESS 'SPACE' TO RESTART");
@@ -298,8 +335,5 @@ int main()
 }
 
 
-// TODO: Enemy Collision w/ Bullet
 // TODO: Convert aShield to a linked list with shield/enemy elements
 // TODO: Fix middle and back row of shields
-// TODO: Fix movement to sense holding down arrow keys
-// TODO: Add feature to shoot more than one bullet at a time
